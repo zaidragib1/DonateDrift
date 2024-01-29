@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.entity;
 
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +37,13 @@ public class Fundraiser {
 	
 	private String description;
 	
-	private List<String>photoUrl;
+	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<UserDocument> attachmentUrl = new ArrayList<>();
 	
 	private String videoUrl;
 	
-	private List<String>socialMediaLinks;
+	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<SocialMedia> socialMediaLinks = new ArrayList<>();
 	
 	private String upiId;
 	
@@ -59,11 +62,19 @@ public class Fundraiser {
 	
 	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<Donor> donors=new ArrayList<>();
+	
+	
+	
+
+	public Fundraiser() {
+		//super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Fundraiser(long id, String title, Category category, String country, String city, String firstName,
-			String lastName, String description, List<String> photoUrl, String videoUrl, List<String> socialMediaLinks,
-			String upiId, long requiredAmount, long raisedAmount, LocalDateTime createdAt, List<Status> status,
-			User user, List<Donor> donors) {
+			String lastName, String description, List<UserDocument> attachmentUrl, String videoUrl,
+			List<SocialMedia> socialMediaLinks, String upiId, long requiredAmount, long raisedAmount,
+			LocalDateTime createdAt, List<Status> status, User user, List<Donor> donors) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -73,7 +84,7 @@ public class Fundraiser {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
-		this.photoUrl = photoUrl;
+		this.attachmentUrl = attachmentUrl;
 		this.videoUrl = videoUrl;
 		this.socialMediaLinks = socialMediaLinks;
 		this.upiId = upiId;
@@ -83,10 +94,6 @@ public class Fundraiser {
 		this.status = status;
 		this.user = user;
 		this.donors = donors;
-	}
-
-	public Fundraiser() {
-		
 	}
 
 	public long getId() {
@@ -153,12 +160,12 @@ public class Fundraiser {
 		this.description = description;
 	}
 
-	public List<String> getPhotoUrl() {
-		return photoUrl;
+	public List<UserDocument> getAttachmentUrl() {
+		return attachmentUrl;
 	}
 
-	public void setPhotoUrl(List<String> photoUrl) {
-		this.photoUrl = photoUrl;
+	public void setAttachmentUrl(List<UserDocument> attachmentUrl) {
+		this.attachmentUrl = attachmentUrl;
 	}
 
 	public String getVideoUrl() {
@@ -169,11 +176,11 @@ public class Fundraiser {
 		this.videoUrl = videoUrl;
 	}
 
-	public List<String> getSocialMediaLinks() {
+	public List<SocialMedia> getSocialMediaLinks() {
 		return socialMediaLinks;
 	}
 
-	public void setSocialMediaLinks(List<String> socialMediaLinks) {
+	public void setSocialMediaLinks(List<SocialMedia> socialMediaLinks) {
 		this.socialMediaLinks = socialMediaLinks;
 	}
 
@@ -232,6 +239,7 @@ public class Fundraiser {
 	public void setDonors(List<Donor> donors) {
 		this.donors = donors;
 	}
+	
 	
 	
 	
