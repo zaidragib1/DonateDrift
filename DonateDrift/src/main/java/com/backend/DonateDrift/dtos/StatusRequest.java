@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class DonorRequest {
+@NoArgsConstructor
+public class StatusRequest {
 
-    private String name;
-    private long amount;
-    private String comment;
-
+    private String Description;
+    private String photoUrl;
 }

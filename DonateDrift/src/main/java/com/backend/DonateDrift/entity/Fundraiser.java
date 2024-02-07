@@ -48,6 +48,7 @@ public class Fundraiser {
 	private String videoUrl;
 
 	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List<SocialMedia> socialMediaLinks = new ArrayList<>();
 
 	private String upiId;

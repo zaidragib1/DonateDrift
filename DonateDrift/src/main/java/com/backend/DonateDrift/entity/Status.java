@@ -1,11 +1,14 @@
 package com.backend.DonateDrift.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Status {
@@ -14,18 +17,22 @@ public class Status {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	private String description;
+	private String Description;
+
+	private LocalDateTime UpdatedAt;
 	
 	private String photoUrl;
 	
 	@ManyToOne
 	@JoinColumn(name="fundraiser_id")
+	@JsonIgnore
 	private Fundraiser fundraiser;
 
-	public Status(long id, String description, String photoUrl, Fundraiser fundraiser) {
+	public Status(long id, String Description, LocalDateTime UpdatedAt,String photoUrl, Fundraiser fundraiser) {
 		super();
 		this.id = id;
-		this.description = description;
+		this.Description = Description;
+		this.UpdatedAt = UpdatedAt;
 		this.photoUrl = photoUrl;
 		this.fundraiser = fundraiser;
 	}
@@ -43,11 +50,19 @@ public class Status {
 	}
 
 	public String getDescription() {
-		return description;
+		return Description;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return UpdatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		UpdatedAt = updatedAt;
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.Description = description;
 	}
 
 	public String getPhotoUrl() {
