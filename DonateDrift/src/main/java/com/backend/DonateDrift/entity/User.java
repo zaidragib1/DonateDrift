@@ -1,21 +1,11 @@
 package com.backend.DonateDrift.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.backend.DonateDrift.enums.UserRole;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -36,31 +26,16 @@ public class User {
 	private String profilePicUrl;
 	
 	private UserRole role;
-	
+
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<Fundraiser> fundraiser = new ArrayList<>();
-	
+
 
 	public User() {
-		
+
 	}
 
-	
-
-	public List<Fundraiser> getFundraiser() {
-		return fundraiser;
-	}
-
-
-
-	public void setFundraiser(List<Fundraiser> fundraiser) {
-		this.fundraiser = fundraiser;
-	}
-
-
-
-	public User(Long id, String email, String name, String password, String profilePicUrl, UserRole role,
-			List<Fundraiser> fundraiser) {
+	public User(Long id, String email, String name, String password, String profilePicUrl, UserRole role) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -68,10 +43,7 @@ public class User {
 		this.password = password;
 		this.profilePicUrl = profilePicUrl;
 		this.role = role;
-		this.fundraiser = fundraiser;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -120,8 +92,8 @@ public class User {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
-	
-	
-	
-	
+
+
+
+
 }

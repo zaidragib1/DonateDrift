@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.DonateDrift.config.JwtProvider;
-import com.backend.DonateDrift.dtos.ApiResponse;
 import com.backend.DonateDrift.dtos.AuthResponse;
 import com.backend.DonateDrift.dtos.LoginRequest;
 import com.backend.DonateDrift.dtos.SignupRequest;
