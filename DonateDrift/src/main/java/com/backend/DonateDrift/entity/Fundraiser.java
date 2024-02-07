@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.backend.DonateDrift.enums.Category;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,6 +66,7 @@ public class Fundraiser {
 	private User user;
 	
 	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
+	@JsonManagedReference
 	private List<Donor> donors=new ArrayList<>();
 //
 //	public Fundraiser(long id, String title, Category category, String country, String city, String firstName,
