@@ -1,22 +1,33 @@
 package com.backend.DonateDrift.service;
 
 import com.backend.DonateDrift.dtos.FundraiserRequest;
-import com.backend.DonateDrift.Controller.FundraiserController;
 import com.backend.DonateDrift.entity.Fundraiser;
+import com.backend.DonateDrift.entity.User;
+import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.repository.FundraiserRepository;
+import com.backend.DonateDrift.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FundraiserService{
 
+    private final int adminId=434;
     private final FundraiserRepository fundraiserRepository;
+
+    private final UserRepository userRepository;
+
+    private final UserService userService;
     @Autowired
-    public FundraiserService(FundraiserRepository fundraiserRepository){
+    public FundraiserService(FundraiserRepository fundraiserRepository,UserRepository userRepository,UserService userService){
         this.fundraiserRepository = fundraiserRepository;
+        this.userRepository=userRepository;
+        this.userService=userService;
     }
 
     public List<Fundraiser> getAllFundraisers() {
@@ -29,11 +40,21 @@ public class FundraiserService{
     }
 
 
-    public Fundraiser createFundraiser(FundraiserRequest fundraiserRequest) {
+    public Fundraiser createFundraiser(FundraiserRequest fundraiserRequest,Long id) throws UserException {
         Fundraiser fundraiser = new Fundraiser();
         BeanUtils.copyProperties(fundraiserRequest, fundraiser);
-        //System.out.println(fundraiserRequest.getAttachmentUrl().size());
-        //fundraiser.getattachementUrl(fundraiserRequest.getAttachmentUrl());
+        fundraiser.setCreatedAt(LocalDateTime.now());
+
+        Long userId = id;
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.getFundraiser().add(fundraiser);
+            userRepository.save(user);
+            fundraiser.setUser(user);
+        } else {
+            throw new UserException("User Not Found!!");
+        }
         return fundraiserRepository.save(fundraiser);
     }
 

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatusRequest {
 
-    private String Description;
+    private String description;
     private String photoUrl;
 }

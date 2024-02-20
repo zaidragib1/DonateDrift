@@ -7,6 +7,8 @@ import java.util.Set;
 
 import com.backend.DonateDrift.enums.Category;
 
+import com.backend.DonateDrift.enums.FundraiserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,7 +45,7 @@ public class Fundraiser {
 
 	private String attachmentUrl;
 
-
+	private FundraiserStatus fundraiserStatus = FundraiserStatus.PENDING;
 
 	private String videoUrl;
 
@@ -63,8 +65,10 @@ public class Fundraiser {
 	private List<Status> status=new ArrayList<>();
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="user_id")
 	private User user;
+
 	
 	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
 	@JsonManagedReference

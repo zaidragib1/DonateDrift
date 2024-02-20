@@ -16,11 +16,14 @@ public class SignupRequest {
 	@Email
 	@NotBlank
 	private String email;
-	
+
 	@NotBlank
 	private String password;
-	
-	
+
+
+	private String userRole = "USER";
+
+}
 	
 //
 //	public SignupRequest() {
@@ -63,4 +66,4 @@ public class SignupRequest {
 //	public void setPassword(String password) {
 //		this.password = password;
 //	}
-}
+

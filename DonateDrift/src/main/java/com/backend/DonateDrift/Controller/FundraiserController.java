@@ -2,6 +2,7 @@ package com.backend.DonateDrift.Controller;
 
 import com.backend.DonateDrift.dtos.FundraiserRequest;
 import com.backend.DonateDrift.entity.Fundraiser;
+import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.service.FundraiserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,9 @@ public class FundraiserController {
         return new ResponseEntity<>(fundraiser, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Fundraiser> createFundraiser(@RequestBody FundraiserRequest fundraiserRequest) {
-        Fundraiser createdFundraiser = fundraiserService.createFundraiser(fundraiserRequest);
+    @PostMapping("/{id}")
+    public ResponseEntity<Fundraiser> createFundraiser(@RequestBody FundraiserRequest fundraiserRequest,@PathVariable Long id) throws UserException {
+        Fundraiser createdFundraiser = fundraiserService.createFundraiser(fundraiserRequest,id);
         return new ResponseEntity<>(createdFundraiser, HttpStatus.CREATED);
     }
 

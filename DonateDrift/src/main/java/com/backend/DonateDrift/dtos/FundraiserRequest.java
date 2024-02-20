@@ -1,6 +1,8 @@
 package com.backend.DonateDrift.dtos;
 
 import com.backend.DonateDrift.enums.Category;
+import com.backend.DonateDrift.enums.FundraiserStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class FundraiserRequest {
 
@@ -22,6 +25,7 @@ public class FundraiserRequest {
     private String upiId;
     private long requiredAmount;
     private String attachmentUrl;
+//    private FundraiserStatus fundraiserStatus;
     //private LocalDateTime createdAt;
 
 }
