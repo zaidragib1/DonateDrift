@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.backend.DonateDrift.config.JwtProvider;
-import com.backend.DonateDrift.dtos.ApiResponse;
 import com.backend.DonateDrift.dtos.AuthResponse;
 import com.backend.DonateDrift.dtos.LoginRequest;
 import com.backend.DonateDrift.dtos.SignupRequest;
@@ -60,6 +58,7 @@ public class AuthController {
 		String email = signupRequest.getEmail();
 		String password = signupRequest.getPassword();
 		String name = signupRequest.getName();
+		String userRole = signupRequest.getUserRole();
 		
 		//now check whether this email already exists
 		User isEmailExist = userRepository.findByEmail(email);
@@ -72,6 +71,9 @@ public class AuthController {
 		createdUser.setEmail(email);
 		createdUser.setPassword(passwordEncoder.encode(password));
 		createdUser.setName(name);
+		if ("ADMIN".equals(userRole)) {
+			createdUser.setUserRole(userRole);
+		}
 		
 		User savedUser = userRepository.save(createdUser);
 		

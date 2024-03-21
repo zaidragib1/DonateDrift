@@ -43,7 +43,7 @@ public class UserService {
 		User user = userRepository.findByEmail(email);
 		
 		if(user==null) {
-			throw new UserException("user not found with email "+email);
+			throw new UserException("user not found with email " + email);
 		}
 		
 		return user;
