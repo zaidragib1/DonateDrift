@@ -1,18 +1,22 @@
 package com.backend.DonateDrift.dtos;
 
+import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.enums.Category;
 import com.backend.DonateDrift.enums.FundraiserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FundraiserRequest {
+public class FundraiserRequest{
 
     private String title;
     private Category category;
@@ -24,8 +28,6 @@ public class FundraiserRequest {
     private String videoUrl;
     private String upiId;
     private long requiredAmount;
-    private String attachmentUrl;
-//    private FundraiserStatus fundraiserStatus;
-    //private LocalDateTime createdAt;
-
+    private MultipartFile coverPhoto;
+    private List<MultipartFile> files = new ArrayList<>();
 }

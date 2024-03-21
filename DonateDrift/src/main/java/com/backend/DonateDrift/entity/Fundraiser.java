@@ -1,11 +1,14 @@
 package com.backend.DonateDrift.entity;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.backend.DonateDrift.enums.Category;
+import com.backend.DonateDrift.entity.Attachment;
 
 import com.backend.DonateDrift.enums.FundraiserStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fundraiser {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -39,11 +42,13 @@ public class Fundraiser {
 
 	private String description;
 
-	//@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@ElementCollection
-//	private List<String> attachmentUrl;
+	@OneToOne(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private CoverAttachment coverAttachment;
 
-	private String attachmentUrl;
+	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private List<Attachment> attachment = new ArrayList<>();
 
 	private FundraiserStatus fundraiserStatus = FundraiserStatus.PENDING;
 
@@ -60,19 +65,26 @@ public class Fundraiser {
 	private long raisedAmount;
 
 	private LocalDateTime createdAt;
-	
-	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
-	private List<Status> status=new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Status> status = new ArrayList<>();
+
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
-	
-	@OneToMany(mappedBy = "fundraiser",cascade = CascadeType.ALL,orphanRemoval = true)
+
+	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
-	private List<Donor> donors=new ArrayList<>();
+	private List<Donor> donors = new ArrayList<>();
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, title, category, country, city, firstName, lastName, description, fundraiserStatus, videoUrl, upiId, requiredAmount, raisedAmount, createdAt);
+	}
+
+}
 //
 //	public Fundraiser(long id, String title, Category category, String country, String city, String firstName,
 //			String lastName, String description, String attachmentUrl, String videoUrl, List<SocialMedia> socialMediaLinks,
@@ -251,4 +263,4 @@ public class Fundraiser {
 
 
 	
-}
+

@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.service;
 
 import com.backend.DonateDrift.dtos.FundraiserRequest;
+import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.User;
 import com.backend.DonateDrift.exception.UserException;
@@ -10,7 +11,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +28,15 @@ public class FundraiserService{
     private final UserRepository userRepository;
 
     private final UserService userService;
+
+    private final FileService fileService;
+
     @Autowired
-    public FundraiserService(FundraiserRepository fundraiserRepository,UserRepository userRepository,UserService userService){
+    public FundraiserService(FundraiserRepository fundraiserRepository,UserRepository userRepository,UserService userService,FileService fileService){
         this.fundraiserRepository = fundraiserRepository;
         this.userRepository=userRepository;
         this.userService=userService;
+        this.fileService=fileService;
     }
 
     public List<Fundraiser> getAllFundraisers() {
@@ -40,10 +49,19 @@ public class FundraiserService{
     }
 
 
-    public Fundraiser createFundraiser(FundraiserRequest fundraiserRequest,Long id) throws UserException {
+    public Fundraiser createFundraiser(FundraiserRequest fundraiserRequest,Long id) throws UserException, GeneralSecurityException, IOException {
         Fundraiser fundraiser = new Fundraiser();
         BeanUtils.copyProperties(fundraiserRequest, fundraiser);
         fundraiser.setCreatedAt(LocalDateTime.now());
+
+//        // Upload images to Google Drive
+//        List<Attachment> attachments = new ArrayList<>();
+//        for (Attachment res : fundraiserRequest.getAttachment()) {
+//            Attachment attachment = fileService.uploadImageToDrive(new File(res.getUrl()));
+//            attachments.add(attachment);
+//        }
+        //fundraiser.setAttachment(attachments);
+
 
         Long userId = id;
         Optional<User> optionalUser = userRepository.findById(userId);
