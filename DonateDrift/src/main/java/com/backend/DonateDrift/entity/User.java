@@ -39,6 +39,10 @@ public class User {
 	@JsonManagedReference
 	private List<Fundraiser> fundraiser = new ArrayList<>();
 
+//	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//	@JsonManagedReference
+//	private List<DonorHistory> donorHIstory = new ArrayList<>();
+
 }
 //	public User() {
 //

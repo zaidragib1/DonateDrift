@@ -54,7 +54,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<AuthResponse> createUserHandler(@RequestBody SignupRequest signupRequest) 
 							throws UserException{
-		
+
 		String email = signupRequest.getEmail();
 		String password = signupRequest.getPassword();
 		String name = signupRequest.getName();
@@ -87,6 +87,9 @@ public class AuthController {
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setJwt(token);
 		authResponse.setMessage("Signup Success");
+		authResponse.setUserId(savedUser.getId());
+		authResponse.setName(name);
+		authResponse.setEmail(email);
 		
 		return new ResponseEntity<AuthResponse>(authResponse,HttpStatus.CREATED);
 		
@@ -96,9 +99,11 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<AuthResponse> loginUserHandler
 								(@RequestBody LoginRequest loginRequest){
-		
 		String username = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
+
+		User user = userRepository.findByEmail(username);
+		Long userId = (user != null) ? user.getId() : null;
 		
 		Authentication authentication = authenticate(username,password);
 		
@@ -107,11 +112,15 @@ public class AuthController {
 		String token = jwtprovider.generateToken(authentication);
 		
 		AuthResponse authResponse = new AuthResponse();
+
 		authResponse.setJwt(token);
 		authResponse.setMessage("Signin Success");
-		
+		authResponse.setUserId(userId);
+		authResponse.setEmail(user.getEmail());
+		authResponse.setName(user.getName());
 		return new ResponseEntity<AuthResponse>(authResponse,HttpStatus.CREATED);
 
+		//wirking fine
 	}
 	
 	private Authentication authenticate(String username, String password) {
