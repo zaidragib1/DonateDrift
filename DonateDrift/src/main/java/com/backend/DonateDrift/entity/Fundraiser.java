@@ -74,6 +74,11 @@ public class Fundraiser {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+//	@ManyToOne
+//	@JsonIgnore
+//	@JoinColumn(name = "donorHistory_id")
+//	private DonorHistory donorHistory;
+
 
 	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference

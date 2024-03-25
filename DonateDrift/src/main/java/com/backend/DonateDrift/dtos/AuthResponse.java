@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 public class AuthResponse {
 	private String jwt;
 	private String message;
+	private Long userId;
+	private String name;
+	private String email;
 	
 	
 //	public AuthResponse() {
