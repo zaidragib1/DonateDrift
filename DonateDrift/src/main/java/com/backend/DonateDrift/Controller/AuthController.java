@@ -120,6 +120,7 @@ public class AuthController {
 		authResponse.setName(user.getName());
 		return new ResponseEntity<AuthResponse>(authResponse,HttpStatus.CREATED);
 
+		//wirking fine
 	}
 	
 	private Authentication authenticate(String username, String password) {
