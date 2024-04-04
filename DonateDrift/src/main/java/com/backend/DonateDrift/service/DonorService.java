@@ -6,7 +6,7 @@ import com.backend.DonateDrift.entity.Donor;
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.User;
 import com.backend.DonateDrift.exception.FundRaiserException;
-//import com.backend.DonateDrift.repository.DonorHistoryRepository;
+import com.backend.DonateDrift.repository.DonorHistoryRepository;
 import com.backend.DonateDrift.repository.DonorRepository;
 import com.backend.DonateDrift.repository.FundraiserRepository;
 import com.backend.DonateDrift.repository.UserRepository;
@@ -28,66 +28,50 @@ public class DonorService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private DonorHistoryRepository donorHistoryRepository;
-//
-//    public Donor addDonor(DonorRequest donorRequest,Long id,Long user_id) throws FundRaiserException {
-//        Donor donor = new Donor();
-//        donor.setName(donorRequest.getName());
-//        donor.setAmount(donorRequest.getAmount());
-//        donor.setComment(donorRequest.getComment());
-//        donor.setDonatedAt(LocalDateTime.now());
-//
-//        User user = userRepository.findUserById(user_id);
-//        DonorHistory donorHistory = new DonorHistory();
-//        donorHistory.setAmount(donorRequest.getAmount());
-//        donorHistory.setDonatedAt(LocalDateTime.now());
-//        user.getDonorHIstory().add(donorHistory);
-//        userRepository.save(user);
-//        donorHistory.setUser(user);
-//        //donorHistoryRepository.save(donorHistory);
-//
-//
-//        Long fundraiserId = id;
-//        Optional<Fundraiser> optionalFundraiser = fundraiserRepository.findById(fundraiserId);
-//        if (optionalFundraiser.isPresent()) {
-//            Fundraiser fundraiser = optionalFundraiser.get();
-//            long currentRaisedAmount = fundraiser.getRaisedAmount();
-//            long newRaisedAmount = currentRaisedAmount + donorRequest.getAmount();
-//            fundraiser.setRaisedAmount(newRaisedAmount);
-//            fundraiserRepository.save(fundraiser);
-//            donor.setFundraiser(fundraiser);
-//            donorHistory.getFundraiser().add(fundraiser);
-//        } else {
-//            throw new FundRaiserException("Fundraiser Not Found!!");
-//        }
-//        return donorRepository.save(donor);
-//    }
+    @Autowired
+    private DonorHistoryRepository donorHistoryRepository;
 
-//    public Donor addDonor(DonorRequest donorRequest) {
-//        Donor donor = new Donor();
-//        donor.setName(donorRequest.getName());
-//        donor.setAmount(donorRequest.getAmount());
-//        donor.setComment(donorRequest.getComment());
-//        donor.setDonatedAt(LocalDateTime.now());
+//    public List<Donor> getDonorHistoryByUserId(Long userId, Long fundraiserId) throws FundRaiserException {
+//        Optional<Fundraiser> optionalFundraiser = fundraiserRepository.findById(fundraiserId);
+//        if (optionalFundraiser.isEmpty()) {
+//            throw new FundRaiserException("Fundraiser not found with ID: " + fundraiserId);
+//        }
 //
-//        // Find the fundraiser by its ID
-//        Long fundraiserId = donorRequest.getFundraiserId();
-//        Fundraiser fundraiser = fundraiserRepository.findById(fundraiserId)
-//                .orElseThrow(() -> new RuntimeException("Fundraiser not found with id: " + fundraiserId));
+//        Fundraiser fundraiser = optionalFundraiser.get();
+//        String fundraiserTitle = fundraiser.getTitle();
 //
-//        // Update the raised amount of the fundraiser
-//        long currentRaisedAmount = fundraiser.getRaisedAmount();
-//        long newRaisedAmount = currentRaisedAmount + donorRequest.getAmount();
-//        fundraiser.setRaisedAmount(newRaisedAmount);
+//        List<Donor> donorHistory = donorHistoryRepository.findByUserIdAndFundraiserId(userId, fundraiserId);
 //
-//        // Save the updated fundraiser
-//        fundraiserRepository.save(fundraiser);
+//        // Set the fundraiser title for each donor in the history
+//        for (Donor donor : donorHistory) {
+//            donor.setFundraiserTitle(fundraiserTitle);
+//        }
 //
-//        // Set the fundraiser for the donor and save the donor
-//        donor.setFundraiser(fundraiser);
-//        return donorRepository.save(donor);
+//        return donorHistory;
 //    }
+    public Donor addDonor(DonorRequest donorRequest,Long id,Long userId) throws FundRaiserException {
+        Donor donor = new Donor();
+        donor.setUserId(userId);
+        donor.setName(donorRequest.getName());
+        donor.setAmount(donorRequest.getAmount());
+        donor.setComment(donorRequest.getComment());
+        donor.setDonatedAt(LocalDateTime.now());
+
+        Long fundraiserId = id;
+        Optional<Fundraiser> optionalFundraiser = fundraiserRepository.findById(fundraiserId);
+        if (optionalFundraiser.isPresent()) {
+            Fundraiser fundraiser = optionalFundraiser.get();
+            long currentRaisedAmount = fundraiser.getRaisedAmount();
+            long newRaisedAmount = currentRaisedAmount + donorRequest.getAmount();
+            fundraiser.setRaisedAmount(newRaisedAmount);
+            fundraiserRepository.save(fundraiser);
+            donor.setFundraiser(fundraiser);
+        } else {
+            throw new FundRaiserException("Fundraiser Not Found!!");
+        }
+        return donorRepository.save(donor);
+    }
+
 
     public List<Donor> getAllDonors() {
         return donorRepository.findAll();

@@ -18,11 +18,11 @@ public class DonorController {
     @Autowired
     private DonorService donorService;
 
-//    @PostMapping("/{id}/{user_id}")
-//    public ResponseEntity<Donor> addDonor(@RequestBody DonorRequest donorRequest, @PathVariable Long id,@PathVariable Long user_id) throws FundRaiserException {
-//        Donor donor = donorService.addDonor(donorRequest,id,user_id);
-//        return new ResponseEntity<>(donor, HttpStatus.CREATED);
-//    }
+    @PostMapping("/{id}/{userId}")
+    public ResponseEntity<Donor> addDonor(@RequestBody DonorRequest donorRequest, @PathVariable Long id,@PathVariable Long userId) throws FundRaiserException {
+        Donor donor = donorService.addDonor(donorRequest,id,userId);
+        return new ResponseEntity<>(donor, HttpStatus.CREATED);
+    }
 
     @GetMapping
     public ResponseEntity<List<Donor>> getAllDonors() {
