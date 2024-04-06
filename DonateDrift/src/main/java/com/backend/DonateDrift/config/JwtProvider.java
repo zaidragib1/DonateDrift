@@ -36,6 +36,7 @@ public class JwtProvider {
 				parseClaimsJws(jwt).getBody();
 
 		String email = String.valueOf(claims.get("email"));
+		//String email = claims.getSubject();
 		
 		return email;
 	}

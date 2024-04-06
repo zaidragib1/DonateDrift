@@ -1,12 +1,12 @@
 package com.backend.DonateDrift.Controller;
 
 import com.backend.DonateDrift.dtos.StatusRequest;
+
 import com.backend.DonateDrift.entity.CoverAttachment;
 import com.backend.DonateDrift.entity.Status;
 import com.backend.DonateDrift.entity.StatusAttachment;
 import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.repository.StatusAttachmentRepository;
-import com.backend.DonateDrift.service.FileService;
 import com.backend.DonateDrift.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,14 +30,11 @@ public class StatusController {
     private StatusAttachmentRepository statusAttachmentRepository;
 
     @Autowired
-    private FileService fileService;
-
-    @Autowired
     public StatusController(StatusService statusService) {
         this.statusService = statusService;
     }
 
-    @PostMapping(value="/{fundraiserId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value="/{fundraiserId}",consumes = {"multipart/mixed", "multipart/form-data"})
     public ResponseEntity<Status> addStatus(@PathVariable Long fundraiserId, @ModelAttribute StatusRequest statusRequest) throws UserException, GeneralSecurityException, IOException {
         Status status = statusService.addStatus(fundraiserId, statusRequest);
         return new ResponseEntity<>(status, HttpStatus.CREATED);

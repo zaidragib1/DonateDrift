@@ -19,8 +19,6 @@ public class StatusAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int status2;
-    private String message2;
     private String url2;
 
     @ManyToOne
@@ -31,6 +29,6 @@ public class StatusAttachment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url2, message2, status2);
+        return Objects.hash(id, url2);
     }
 }

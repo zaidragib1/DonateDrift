@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.Controller;
 
 import com.backend.DonateDrift.dtos.FundraiserRequest;
+
 import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.entity.CoverAttachment;
 import com.backend.DonateDrift.entity.Fundraiser;
@@ -10,7 +11,7 @@ import com.backend.DonateDrift.repository.AttachmentRepository;
 import com.backend.DonateDrift.repository.CoverAttachmentRepository;
 import com.backend.DonateDrift.repository.FundraiserRepository;
 import com.backend.DonateDrift.repository.UserRepository;
-import com.backend.DonateDrift.service.FileService;
+import com.backend.DonateDrift.service.CloudinaryImageService;
 import com.backend.DonateDrift.service.FundraiserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class FundraiserController {
     }
 
     @Autowired
-    public FileService fileService;
+	private CloudinaryImageService cloudinaryImageService;
 
     @Autowired
     public AttachmentRepository attachmentRepository;
@@ -67,16 +68,10 @@ public class FundraiserController {
         return new ResponseEntity<>(fundraiser, HttpStatus.OK);
     }
 
-    @PostMapping(value="/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value="/{id}", consumes = {"multipart/mixed", "multipart/form-data"})
     public ResponseEntity<Fundraiser> createFundraiser(@ModelAttribute FundraiserRequest fundraiserRequest,@PathVariable Long id) throws UserException, GeneralSecurityException, IOException {
-        //MultipartFile multipartFile = fundraiserRequest.getFile();
-        //File file = new File(multipartFile.getOriginalFilename());
-        //FileOutputStream fos = new FileOutputStream(file);
-        //fos.write(multipartFile.getBytes());
-        //fos.close();
         Fundraiser fundraiser = new Fundraiser();
 
-        //BeanUtils.copyProperties(fundraiserRequest, fundraiser);
         fundraiser.setTitle(fundraiserRequest.getTitle());
         fundraiser.setCategory(fundraiserRequest.getCategory());
         fundraiser.setCountry(fundraiserRequest.getCountry());
@@ -88,19 +83,34 @@ public class FundraiserController {
         fundraiser.setRequiredAmount(fundraiserRequest.getRequiredAmount());
         fundraiser.setCreatedAt(LocalDateTime.now());
 
-        File temp = File.createTempFile("temp",null);
-        MultipartFile coverphoto = fundraiserRequest.getCoverPhoto();
-        coverphoto.transferTo(temp);
-        CoverAttachment coverAttachment = fileService.uploadImageToDriveCover(temp);
+        String data = this.cloudinaryImageService.upload(fundraiserRequest.getCoverPhoto());
+        CoverAttachment coverAttachment = new CoverAttachment();
+        coverAttachment.setUrl1(data);
 
         fundraiser.setCoverAttachment(coverAttachment);
-
-        List<MultipartFile> file = fundraiserRequest.getFiles();
+        
+    
+        List<MultipartFile> file = new ArrayList<>();
+        if(fundraiserRequest.getFile1()!=null) {
+        	file.add(fundraiserRequest.getFile1());
+        }
+        if(fundraiserRequest.getFile2()!=null) {
+        	file.add(fundraiserRequest.getFile2());
+        }
+        if(fundraiserRequest.getFile3()!=null) {
+        	file.add(fundraiserRequest.getFile3());
+        }
+        if(fundraiserRequest.getFile4()!=null) {
+        	file.add(fundraiserRequest.getFile4());
+        }
+        if(fundraiserRequest.getFile5()!=null) {
+        	file.add(fundraiserRequest.getFile5());
+        }
+        
         List<Attachment> attachment = new ArrayList<>();
         for(MultipartFile i:file){
-            File qwer = File.createTempFile("qwer",null);
-            i.transferTo(qwer);
-            Attachment attach = fileService.uploadImageToDrive(qwer);
+            Attachment attach = new Attachment();
+            attach.setUrl(this.cloudinaryImageService.upload(fundraiserRequest.getCoverPhoto()));
             attachment.add(attach);
         }
         fundraiser.setAttachment(attachment);
@@ -121,8 +131,6 @@ public class FundraiserController {
         }
         coverAttachment.setFundraiser(fundraiser);
         coverAttachmentRepository.save(coverAttachment);
-//        attachmentRepository.save(attachment);
-        //Fundraiser createdFundraiser = fundraiserService.createFundraiser(fundraiserRequest,id);
         return new ResponseEntity<>(fundraiser, HttpStatus.CREATED);
     }
 

@@ -19,8 +19,6 @@ public class CoverAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int status1;
-    private String message1;
     private String url1;
 
     @OneToOne
@@ -30,6 +28,6 @@ public class CoverAttachment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url1, message1, status1);
+        return Objects.hash(id, url1);
     }
 }

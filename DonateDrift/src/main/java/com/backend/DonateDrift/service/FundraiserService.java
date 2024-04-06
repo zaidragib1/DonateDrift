@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.service;
 
 import com.backend.DonateDrift.dtos.FundraiserRequest;
+
 import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.User;
@@ -29,14 +30,12 @@ public class FundraiserService{
 
     private final UserService userService;
 
-    private final FileService fileService;
 
     @Autowired
-    public FundraiserService(FundraiserRepository fundraiserRepository,UserRepository userRepository,UserService userService,FileService fileService){
+    public FundraiserService(FundraiserRepository fundraiserRepository,UserRepository userRepository,UserService userService){
         this.fundraiserRepository = fundraiserRepository;
         this.userRepository=userRepository;
         this.userService=userService;
-        this.fileService=fileService;
     }
 
     public List<Fundraiser> getAllFundraisers() {

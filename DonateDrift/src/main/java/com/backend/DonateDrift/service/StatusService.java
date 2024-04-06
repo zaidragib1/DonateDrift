@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.service;
 
 import com.backend.DonateDrift.dtos.StatusRequest;
+
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.Status;
 import com.backend.DonateDrift.entity.StatusAttachment;
@@ -28,7 +29,7 @@ public class StatusService {
     private StatusAttachmentRepository statusAttachmentRepository;
 
     @Autowired
-    private FileService fileService;
+	private CloudinaryImageService cloudinaryImageService;
 
     @Autowired
     public StatusService(StatusRepository statusRepository, FundraiserRepository fundraiserRepository) {
@@ -40,10 +41,8 @@ public class StatusService {
         Fundraiser fundraiser = fundraiserRepository.findById(fundraiserId)
                 .orElseThrow(() -> new RuntimeException("Fundraiser not found"));
 
-        File temp = File.createTempFile("temp",null);
-        MultipartFile statusphoto = statusRequest.getStatusAttachment();
-        statusphoto.transferTo(temp);
-        StatusAttachment statusAttachment = fileService.uploadImageToDriveStatus(temp);
+        StatusAttachment statusAttachment = new StatusAttachment();
+        statusAttachment.setUrl2(this.cloudinaryImageService.upload(statusRequest.getStatusAttachment()));
         Status status = new Status();
         status.setDescription(statusRequest.getDescription());
         List<StatusAttachment>attach = status.getStatusAttachment();

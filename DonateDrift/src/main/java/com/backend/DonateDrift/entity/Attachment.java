@@ -47,8 +47,6 @@ public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int status;
-    private String message;
     private String url;
 
     @ManyToOne

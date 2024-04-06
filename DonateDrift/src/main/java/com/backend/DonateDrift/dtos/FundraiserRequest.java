@@ -29,5 +29,10 @@ public class FundraiserRequest{
     private String upiId;
     private long requiredAmount;
     private MultipartFile coverPhoto;
-    private List<MultipartFile> files = new ArrayList<>();
+    private MultipartFile file1;
+    private MultipartFile file2;
+    private MultipartFile file3;
+    private MultipartFile file4;
+    private MultipartFile file5;
+    
 }

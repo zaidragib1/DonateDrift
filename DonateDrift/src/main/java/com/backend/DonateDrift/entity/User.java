@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -30,7 +32,15 @@ public class User {
 
 	private String password;
 
-	private String profilePicUrl;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private ProfilePicture profilePicUrl;
+	
+	private String description;
+	
+	private String city;
+	
+	private String country;
 
 	private String userRole = "USER";
 

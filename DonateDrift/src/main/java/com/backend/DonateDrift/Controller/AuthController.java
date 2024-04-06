@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,6 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +21,15 @@ import com.backend.DonateDrift.config.JwtProvider;
 import com.backend.DonateDrift.dtos.AuthResponse;
 import com.backend.DonateDrift.dtos.LoginRequest;
 import com.backend.DonateDrift.dtos.SignupRequest;
+import com.backend.DonateDrift.dtos.TokenRequest;
 import com.backend.DonateDrift.entity.User;
 import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.repository.UserRepository;
 import com.backend.DonateDrift.service.CustomUserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/auth")
@@ -122,6 +131,28 @@ public class AuthController {
 
 		//wirking fine
 	}
+	
+	@PostMapping("/token")
+	 public ResponseEntity<User> findUserByToken(@RequestBody TokenRequest tokenRequest) throws UserException, JsonProcessingException {
+		 
+		 Base64.Decoder decoder = Base64.getUrlDecoder();
+		
+		 String header = new String(decoder.decode(tokenRequest.getHeader()));
+		 String payload = new String(decoder.decode(tokenRequest.getPayload()));
+		 System.out.println(header);System.out.println(payload);
+	
+		 ObjectMapper objectMapper = new ObjectMapper();
+	
+		 JsonNode jsonNode = objectMapper.readTree(payload);
+	
+		 // Get the value of the "email" field
+		 String email = jsonNode.get("email").asText();
+		 User user = userRepository.findByEmail(email);
+		 if(user==null){
+		 throw new UserException("User not exist");
+		 }
+		 return new ResponseEntity<User>(user,HttpStatus.OK);
+	 }
 	
 	private Authentication authenticate(String username, String password) {
 		
