@@ -20,8 +20,8 @@ public class DonorController {
 
     @PostMapping("/{id}/{userId}")
     public ResponseEntity<Donor> addDonor(@RequestBody DonorRequest donorRequest, @PathVariable Long id,@PathVariable Long userId) throws FundRaiserException {
-        Donor donor = donorService.addDonor(donorRequest,id,userId);
-        return new ResponseEntity<>(donor, HttpStatus.CREATED);
+    	Donor donor = donorService.addDonor(donorRequest,id,userId);
+    	return new ResponseEntity<>(donor, HttpStatus.CREATED);
     }
 
     @GetMapping

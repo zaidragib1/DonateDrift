@@ -40,6 +40,8 @@ public class Fundraiser {
 
 	private String lastName;
 
+	@Lob
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@OneToOne(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
