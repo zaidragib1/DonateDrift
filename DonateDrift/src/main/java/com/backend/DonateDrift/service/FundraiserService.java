@@ -5,11 +5,17 @@ import com.backend.DonateDrift.dtos.FundraiserRequest;
 import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.User;
+import com.backend.DonateDrift.enums.Category;
 import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.repository.FundraiserRepository;
 import com.backend.DonateDrift.repository.UserRepository;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -38,13 +44,36 @@ public class FundraiserService{
         this.userService=userService;
     }
 
-    public List<Fundraiser> getAllFundraisers() {
-        return fundraiserRepository.findAll();
+    public Page<Fundraiser> getAllFundraisers(Integer pageNumber,Integer pageSize) {
+    	
+    	Pageable pageble = PageRequest.of(pageNumber,pageSize);
+    	List<Fundraiser> fundraiser = fundraiserRepository.findAll();
+    	
+    	
+    	int startIndex = (int) pageble.getOffset();
+		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
+		List<Fundraiser> pageContent = fundraiser.subList(startIndex,endIndex);
+		
+		Page<Fundraiser> filteredProducts = new PageImpl<>(pageContent,
+				pageble,fundraiser.size());
+    	
+        return filteredProducts;
     }
 
 
-    public Fundraiser getFundraiserById(long id) {
-        return fundraiserRepository.findById(id).orElse(null);
+    public Page<Fundraiser> getFundraiserById(long id,Integer pageNumber,Integer pageSize) {
+    	
+    	Pageable pageble = PageRequest.of(pageNumber,pageSize);
+    	List<Fundraiser> fundraiser = fundraiserRepository.getAllFundraiserById(id);
+    	
+    	int startIndex = (int) pageble.getOffset();
+		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
+		List<Fundraiser> pageContent = fundraiser.subList(startIndex,endIndex);
+		
+		Page<Fundraiser> filteredProducts = new PageImpl<>(pageContent,
+				pageble,fundraiser.size());
+    	
+        return filteredProducts;
     }
 
 
@@ -89,5 +118,49 @@ public class FundraiserService{
     public void deleteFundraiser(long id) {
         fundraiserRepository.deleteById(id);
     }
+    
+    public Page<Fundraiser> findByCountry(String country,Integer pageNumber,Integer pageSize) {
+    	Pageable pageble = PageRequest.of(pageNumber,pageSize);
+    	List<Fundraiser> fundraiser = fundraiserRepository.findByCountry(country);
+    	int startIndex = (int) pageble.getOffset();
+		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
+		
+		List<Fundraiser> pageContent = fundraiser.subList(startIndex,endIndex);
+		
+		Page<Fundraiser> filteredProducts = new PageImpl<>(pageContent,
+				pageble,fundraiser.size());
+		
+		return filteredProducts;
+    }
+
+    public Page<Fundraiser> findByCity(String city,Integer pageNumber,Integer pageSize) {
+    	Pageable pageble = PageRequest.of(pageNumber,pageSize);
+    	List<Fundraiser> fundraiser =  fundraiserRepository.findByCity(city);
+    	int startIndex = (int) pageble.getOffset();
+		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
+		
+		List<Fundraiser> pageContent = fundraiser.subList(startIndex,endIndex);
+		
+		Page<Fundraiser> filteredProducts = new PageImpl<>(pageContent,
+				pageble,fundraiser.size());
+		
+		return filteredProducts;
+    }
+
+    public Page<Fundraiser> findByCategory(Category category,Integer pageNumber,Integer pageSize) {
+    	Pageable pageble = PageRequest.of(pageNumber,pageSize);
+    	List<Fundraiser> fundraiser =  fundraiserRepository.findByCategory(category);
+    	int startIndex = (int) pageble.getOffset();
+		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
+		
+		List<Fundraiser> pageContent = fundraiser.subList(startIndex,endIndex);
+		
+		Page<Fundraiser> filteredProducts = new PageImpl<>(pageContent,
+				pageble,fundraiser.size());
+		
+		return filteredProducts;
+    }
+
+    
 }
 
