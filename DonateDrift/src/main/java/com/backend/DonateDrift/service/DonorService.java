@@ -29,27 +29,29 @@ public class DonorService {
     private UserRepository userRepository;
 
 
-    public Donor addDonor(DonorRequest donorRequest,Long id) throws FundRaiserException {
-        Donor donor = new Donor();
-        donor.setName(donorRequest.getName());
-        donor.setAmount(donorRequest.getAmount());
-        donor.setComment(donorRequest.getComment());
-        donor.setDonatedAt(LocalDateTime.now());
+    public Donor addDonor(DonorRequest donorRequest,Long id,Long userId) throws FundRaiserException {
+    	 Donor donor = new Donor();
+    	 donor.setUserId(userId);
+    	 donor.setName(donorRequest.getName());
+    	 donor.setAmount(donorRequest.getAmount());
+    	 donor.setComment(donorRequest.getComment());
+    	 donor.setDonatedAt(LocalDateTime.now());
+    	 System.out.println(id);
+    	 //donor.setFundraiserId(id);
 
-
-        Long fundraiserId = id;
-        Optional<Fundraiser> optionalFundraiser = fundraiserRepository.findById(fundraiserId);
-        if (optionalFundraiser.isPresent()) {
-            Fundraiser fundraiser = optionalFundraiser.get();
-            long currentRaisedAmount = fundraiser.getRaisedAmount();
-            long newRaisedAmount = currentRaisedAmount + donorRequest.getAmount();
-            fundraiser.setRaisedAmount(newRaisedAmount);
-            fundraiserRepository.save(fundraiser);
-            donor.setFundraiser(fundraiser);
-        } else {
-            throw new FundRaiserException("Fundraiser Not Found!!");
-        }
-        return donorRepository.save(donor);
+    	 Long fundraiserId = id;
+    	 Optional<Fundraiser> optionalFundraiser = fundraiserRepository.findById(fundraiserId);
+    	 if (optionalFundraiser.isPresent()) {
+	    	 Fundraiser fundraiser = optionalFundraiser.get();
+	    	 long currentRaisedAmount = fundraiser.getRaisedAmount();
+	    	 long newRaisedAmount = currentRaisedAmount + donorRequest.getAmount();
+	    	 fundraiser.setRaisedAmount(newRaisedAmount);
+	    	 fundraiserRepository.save(fundraiser);
+	    	 donor.setFundraiser(fundraiser);
+    	 } else {
+    		 throw new FundRaiserException("Fundraiser Not Found!!");
+    	 }
+    	 return donorRepository.save(donor);
     }
 
 

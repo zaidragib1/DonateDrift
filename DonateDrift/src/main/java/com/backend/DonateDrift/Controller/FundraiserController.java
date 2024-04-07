@@ -64,8 +64,14 @@ public class FundraiserController {
         Page<Fundraiser> fundraisers = fundraiserService.getAllFundraisers(pageNumber,pageSize);
         return new ResponseEntity<>(fundraisers,HttpStatus.OK);
     }
-
+    
     @GetMapping("/{id}")
+    public ResponseEntity<Fundraiser> getFundraiserById(@PathVariable long id) {
+    	Fundraiser fundraiser = fundraiserRepository.getAllById(id);
+    	return new ResponseEntity<>(fundraiser,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
     public ResponseEntity<Page<Fundraiser>> getFundraiserById(@PathVariable long id,@RequestParam Integer pageNumber,
 			@RequestParam Integer pageSize) {
         Page<Fundraiser> fundraiser = fundraiserService.getFundraiserById(id,pageNumber,pageSize);

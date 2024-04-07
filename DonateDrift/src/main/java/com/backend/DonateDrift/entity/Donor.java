@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import lombok.Builder;
 
 @Entity
@@ -17,8 +18,10 @@ public class Donor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Builder.Default
+	//@Builder.Default
 	private String name = "Anonymous";
+	
+	private long userId;
 	
 	private long amount;
 	
@@ -30,27 +33,24 @@ public class Donor {
 	@JoinColumn(name="fundraiser_id")
 	@JsonIgnore
 	private Fundraiser fundraiser;
+	
+	@Transient
+	private long fundraiserId;
 
-	public Donor(long id, String name, long amount, String comment, LocalDateTime donatedAt, Fundraiser fundraiser) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.amount = amount;
-		this.comment = comment;
-		this.donatedAt = donatedAt;
-		this.fundraiser = fundraiser;
-	}
-
-	public Donor() {
-		
-	}
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {
@@ -92,11 +92,15 @@ public class Donor {
 	public void setFundraiser(Fundraiser fundraiser) {
 		this.fundraiser = fundraiser;
 	}
+
+	public long getFundraiserId() {
+		return fundraiserId;
+	}
+
+	public void setFundraiserId(long fundraiserId) {
+		this.fundraiserId = fundraiserId;
+	}
 	
 	
-	
-	
-	
-	
-	
+
 }

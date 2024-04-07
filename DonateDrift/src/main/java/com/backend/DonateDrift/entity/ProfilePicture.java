@@ -26,8 +26,6 @@ public class ProfilePicture {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private int status5;
-    private String message5;
     private String url5;
 
     @OneToOne
@@ -37,7 +35,7 @@ public class ProfilePicture {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url5, message5, status5);
+        return Objects.hash(id, url5);
     }
 
 }

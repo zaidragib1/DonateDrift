@@ -34,5 +34,8 @@ public interface FundraiserRepository extends JpaRepository<Fundraiser, Long> {
 
     @Query("SELECT f FROM Fundraiser f WHERE f.category = :category")
     List<Fundraiser> findByCategory(@Param("category") Category category);
+    
+    @Query("select f from Fundraiser f where f.id=:id")
+    public Fundraiser getAllById(@Param("id") long id);
 
 }
