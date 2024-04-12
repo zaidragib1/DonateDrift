@@ -52,7 +52,7 @@ public class StatusService {
         status.setFundraiser(fundraiser);
         status.setUpdatedAt(LocalDateTime.now());
         Status s = statusRepository.save(status);
-
+        statusAttachment.setStatus(status);
         statusAttachmentRepository.save(statusAttachment);
         return s;
     }
