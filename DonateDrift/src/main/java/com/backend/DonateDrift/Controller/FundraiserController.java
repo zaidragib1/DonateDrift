@@ -97,7 +97,7 @@ public class FundraiserController {
         fundraiser.setFirstName(fundraiserRequest.getFirstName());
         fundraiser.setLastName(fundraiserRequest.getLastName());
         fundraiser.setDescription(fundraiserRequest.getDescription());
-        fundraiser.setRaisedAmount(0);
+        fundraiser.setRaisedAmount(0L);
         fundraiser.setRequiredAmount(fundraiserRequest.getRequiredAmount());
         fundraiser.setVideoUrl(fundraiserRequest.getVideoUrl());
         fundraiser.setCreatedAt(LocalDateTime.now());

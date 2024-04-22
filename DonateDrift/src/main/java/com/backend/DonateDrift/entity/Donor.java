@@ -3,13 +3,7 @@ package com.backend.DonateDrift.entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Builder;
 
 @Entity
@@ -17,6 +11,7 @@ public class Donor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name ="donor_id")
 	private Long id;
 	//@Builder.Default
 	private String name = "Anonymous";

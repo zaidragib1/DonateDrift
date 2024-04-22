@@ -1,6 +1,7 @@
 package com.backend.DonateDrift.repository;
 
 import com.backend.DonateDrift.entity.Fundraiser;
+import com.backend.DonateDrift.entity.User;
 import com.backend.DonateDrift.enums.Category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @Repository
 public interface FundraiserRepository extends JpaRepository<Fundraiser, Long> {
+
+    @Query("select u from Fundraiser u where u.id=:fundraiser_id")
+    public Fundraiser findFundraiserById(@Param("fundraiser_id") Long fundraiser_id);
 
     @Query("SELECT f FROM Fundraiser f where f.fundraiserStatus=com.backend.DonateDrift.enums.FundraiserStatus.ACCEPTED")
     public List<Fundraiser> getAllAccepted();
