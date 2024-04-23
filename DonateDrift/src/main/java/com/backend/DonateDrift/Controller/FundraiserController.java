@@ -58,12 +58,12 @@ public class FundraiserController {
     @Autowired
     public CoverAttachmentRepository coverAttachmentRepository;
 
-    @GetMapping
-    public ResponseEntity<Page<Fundraiser>> getAllFundraisers(@RequestParam Integer pageNumber,
-			@RequestParam Integer pageSize) {
-        Page<Fundraiser> fundraisers = fundraiserService.getAllFundraisers(pageNumber,pageSize);
-        return new ResponseEntity<>(fundraisers,HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity<Page<Fundraiser>> getAllFundraisers(@RequestParam Integer pageNumber,
+//			@RequestParam Integer pageSize) {
+//        Page<Fundraiser> fundraisers = fundraiserService.getAllFundraisers(pageNumber,pageSize);
+//        return new ResponseEntity<>(fundraisers,HttpStatus.OK);
+//    }
     
     @GetMapping("/{id}")
     public ResponseEntity<Fundraiser> getFundraiserById(@PathVariable long id) {
@@ -166,28 +166,29 @@ public class FundraiserController {
         fundraiserService.deleteFundraiser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    @GetMapping("/filter")
-    public ResponseEntity<Page<Fundraiser>> getByCountry(@RequestParam("country") String country,@RequestParam("city") String city,@RequestParam("category") Category category,@RequestParam Integer pageNumber,
-			@RequestParam Integer pageSize) {
-    	
-    	
-	    if(country!=null && !country.equals("null")){
-	    	Page<Fundraiser> p = fundraiserService.findByCountry(country,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
-	
-	    if(city!=null && !city.equals("null")){
-	    	Page<Fundraiser> p = fundraiserService.findByCity(city,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
-	
-	    if(category!=null){
-	    	Page<Fundraiser> p = fundraiserService.findByCategory(category,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
 
-	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    
+//    @GetMapping("/filter")
+//    public ResponseEntity<Page<Fundraiser>> getByCountry(@RequestParam("country") String country,@RequestParam("city") String city,@RequestParam("category") Category category,@RequestParam Integer pageNumber,
+//			@RequestParam Integer pageSize) {
+//
+//
+//	    if(country!=null && !country.equals("null")){
+//	    	Page<Fundraiser> p = fundraiserService.findByCountry(country,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    if(city!=null && !city.equals("null")){
+//	    	Page<Fundraiser> p = fundraiserService.findByCity(city,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    if(category!=null){
+//	    	Page<Fundraiser> p = fundraiserService.findByCategory(category,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 }

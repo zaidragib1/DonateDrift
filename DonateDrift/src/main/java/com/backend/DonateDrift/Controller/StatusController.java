@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/status")
+@RequestMapping("/api/status")
 public class StatusController {
 
     private final StatusService statusService;
