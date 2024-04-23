@@ -134,7 +134,6 @@ public class PaypalService {
         Amount amount = new Amount();
         amount.setCurrency(currency);
         amount.setTotal(String.format(Locale.ENGLISH, "%.2f", total));
-
         Transaction transaction = new Transaction();
         transaction.setDescription(description + " - Fundraiser ID: " + fundraiserId); // Append the fundraiser ID to the description for internal tracking
         transaction.setAmount(amount); // Ensure this is not null

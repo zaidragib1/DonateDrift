@@ -15,6 +15,7 @@ public class PaypalConfig {
     @Value("${paypal.mode}")
     private String mode;
 
+
     @Bean
     public APIContext apiContext() {
         return new APIContext(clientId, clientSecret, "sandbox");

@@ -16,3 +16,4 @@ public class PaymentForFundraiser {
     @JsonProperty("donor_id")
     private Long donorId;
 }
+

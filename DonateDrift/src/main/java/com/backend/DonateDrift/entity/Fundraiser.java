@@ -71,7 +71,6 @@ public class Fundraiser {
 
 	@OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Status> status = new ArrayList<>();
-
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "user_id")

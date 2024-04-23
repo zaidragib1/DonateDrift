@@ -18,7 +18,6 @@ public class Payment {
     private Long id;
     private Double amount;
     private Long fundraiserId;
-    // Additional fields for PayPal transaction info
     private String paypalTransactionId;
     private String paypalPaymentStatus;
     private String paypalPayerId;
