@@ -161,6 +161,19 @@ public class FundraiserService{
 		return filteredProducts;
     }
 
+    //***********************below is used for payment intent**********************//
+    public Fundraiser findFundraiserById(Long id) throws UserException {
+        Optional<Fundraiser>fundraiser = fundraiserRepository.findById(id);
+        if(fundraiser.isPresent()) {
+            return fundraiser.get();
+        }
+        throw new UserException("Fundraiser not with id "+id);
+    }
+
+    public void saveOrUpdateFundraiser(Fundraiser fundraiser) {
+        fundraiserRepository.save(fundraiser);
+    }
+
     
 }
 

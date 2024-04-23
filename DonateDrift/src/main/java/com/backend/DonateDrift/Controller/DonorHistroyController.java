@@ -28,5 +28,6 @@ public class DonorHistroyController {
 		List<Donor> donorHistory = donorHistoryService.getDonorHistoryByUserId(userId);
 		return new ResponseEntity<>(donorHistory, HttpStatus.OK);
 	}
+
 	
 }

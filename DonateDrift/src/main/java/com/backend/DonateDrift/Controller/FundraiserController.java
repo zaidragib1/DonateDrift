@@ -90,6 +90,7 @@ public class FundraiserController {
             }
         	str.append(tt.charAt(i));
         }
+
         fundraiser.setTitle(str.toString());
         fundraiser.setCategory(fundraiserRequest.getCategory());
         fundraiser.setCountry(fundraiserRequest.getCountry());
@@ -97,7 +98,8 @@ public class FundraiserController {
         fundraiser.setFirstName(fundraiserRequest.getFirstName());
         fundraiser.setLastName(fundraiserRequest.getLastName());
         fundraiser.setDescription(fundraiserRequest.getDescription());
-        fundraiser.setRaisedAmount(0);
+        fundraiser.setUpiId(fundraiserRequest.getUpiId()); //***********
+        fundraiser.setRaisedAmount(0L);
         fundraiser.setRequiredAmount(fundraiserRequest.getRequiredAmount());
         fundraiser.setVideoUrl(fundraiserRequest.getVideoUrl());
         fundraiser.setCreatedAt(LocalDateTime.now());
