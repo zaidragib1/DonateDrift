@@ -46,11 +46,7 @@ public class StatusController {
         return ResponseEntity.ok().body(status);
     }
 
-    @GetMapping("/fundraiser/{fundraiserId}")
-    public ResponseEntity<List<Status>> getStatusByFundraiserId(@PathVariable Long fundraiserId) {
-        List<Status> statuses = statusService.getStatusByFundraiserId(fundraiserId);
-        return ResponseEntity.ok().body(statuses);
-    }
+    
 
     @PutMapping("/{statusId}")
     public ResponseEntity<Status> updateStatus(@PathVariable Long statusId, @RequestBody StatusRequest statusRequest) {

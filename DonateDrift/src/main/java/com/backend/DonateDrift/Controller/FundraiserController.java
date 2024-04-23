@@ -65,11 +65,7 @@ public class FundraiserController {
 //        return new ResponseEntity<>(fundraisers,HttpStatus.OK);
 //    }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<Fundraiser> getFundraiserById(@PathVariable long id) {
-    	Fundraiser fundraiser = fundraiserRepository.getAllById(id);
-    	return new ResponseEntity<>(fundraiser,HttpStatus.OK);
-    }
+    
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Page<Fundraiser>> getFundraiserById(@PathVariable long id,@RequestParam Integer pageNumber,
