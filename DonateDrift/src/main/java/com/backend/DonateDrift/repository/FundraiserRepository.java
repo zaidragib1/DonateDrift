@@ -30,13 +30,13 @@ public interface FundraiserRepository extends JpaRepository<Fundraiser, Long> {
     @Query("select f from Fundraiser f where f.user.id=:id")
     public List<Fundraiser> getAllFundraiserById(@Param("id") long id);
     
-    @Query("SELECT f FROM Fundraiser f WHERE f.country = :country")
+    @Query("SELECT f FROM Fundraiser f WHERE f.country = :country and f.fundraiserStatus=com.backend.DonateDrift.enums.FundraiserStatus.ACCEPTED")
     List<Fundraiser> findByCountry(@Param("country") String country);
 
-    @Query("SELECT f FROM Fundraiser f WHERE f.city = :city")
+    @Query("SELECT f FROM Fundraiser f WHERE f.city = :city and f.fundraiserStatus=com.backend.DonateDrift.enums.FundraiserStatus.ACCEPTED")
     List<Fundraiser> findByCity(@Param("city") String city);
 
-    @Query("SELECT f FROM Fundraiser f WHERE f.category = :category")
+    @Query("SELECT f FROM Fundraiser f WHERE f.category = :category and f.fundraiserStatus=com.backend.DonateDrift.enums.FundraiserStatus.ACCEPTED")
     List<Fundraiser> findByCategory(@Param("category") Category category);
     
     @Query("select f from Fundraiser f where f.id=:id")

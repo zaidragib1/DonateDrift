@@ -173,7 +173,7 @@ public class PaypalController {
         try {
             String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8.toString());
             // Ensure these URLs are leading to your frontend routes that handle the logic post-payment
-            String cancelUrl = "http://localhost:8080/payment/cancel" + fundraiserId;
+            String cancelUrl = "http://localhost:3000/payment/cancel" + fundraiserId;
             String successUrl = "http://localhost:8080/payment/success/" + fundraiserId
                     + "?donorName=" + encodedName + "&userId=" + userId;  // Ensure userId is appended
 
