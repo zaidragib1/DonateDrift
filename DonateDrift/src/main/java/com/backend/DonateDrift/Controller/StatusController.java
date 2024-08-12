@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/status")
+@RequestMapping("/api/status")
 public class StatusController {
 
     private final StatusService statusService;
@@ -46,11 +46,7 @@ public class StatusController {
         return ResponseEntity.ok().body(status);
     }
 
-    @GetMapping("/fundraiser/{fundraiserId}")
-    public ResponseEntity<List<Status>> getStatusByFundraiserId(@PathVariable Long fundraiserId) {
-        List<Status> statuses = statusService.getStatusByFundraiserId(fundraiserId);
-        return ResponseEntity.ok().body(statuses);
-    }
+    
 
     @PutMapping("/{statusId}")
     public ResponseEntity<Status> updateStatus(@PathVariable Long statusId, @RequestBody StatusRequest statusRequest) {

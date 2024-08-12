@@ -6,6 +6,7 @@ import com.backend.DonateDrift.entity.Attachment;
 import com.backend.DonateDrift.entity.Fundraiser;
 import com.backend.DonateDrift.entity.User;
 import com.backend.DonateDrift.enums.Category;
+import com.backend.DonateDrift.enums.FundraiserStatus;
 import com.backend.DonateDrift.exception.UserException;
 import com.backend.DonateDrift.repository.FundraiserRepository;
 import com.backend.DonateDrift.repository.UserRepository;
@@ -29,7 +30,6 @@ import java.util.Optional;
 @Service
 public class FundraiserService{
 
-    private final int adminId=434;
     private final FundraiserRepository fundraiserRepository;
 
     private final UserRepository userRepository;
@@ -47,8 +47,7 @@ public class FundraiserService{
     public Page<Fundraiser> getAllFundraisers(Integer pageNumber,Integer pageSize) {
     	
     	Pageable pageble = PageRequest.of(pageNumber,pageSize);
-    	List<Fundraiser> fundraiser = fundraiserRepository.findAll();
-    	
+    	List<Fundraiser> fundraiser = fundraiserRepository.getAllAccepted();
     	
     	int startIndex = (int) pageble.getOffset();
 		int endIndex = Math.min(startIndex+pageble.getPageSize(),fundraiser.size());
@@ -159,6 +158,19 @@ public class FundraiserService{
 				pageble,fundraiser.size());
 		
 		return filteredProducts;
+    }
+
+    //***********************below is used for payment intent**********************//
+    public Fundraiser findFundraiserById(Long id) throws UserException {
+        Optional<Fundraiser>fundraiser = fundraiserRepository.findById(id);
+        if(fundraiser.isPresent()) {
+            return fundraiser.get();
+        }
+        throw new UserException("Fundraiser not with id "+id);
+    }
+
+    public void saveOrUpdateFundraiser(Fundraiser fundraiser) {
+        fundraiserRepository.save(fundraiser);
     }
 
     

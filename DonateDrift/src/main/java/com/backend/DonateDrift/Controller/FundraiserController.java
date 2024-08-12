@@ -58,18 +58,14 @@ public class FundraiserController {
     @Autowired
     public CoverAttachmentRepository coverAttachmentRepository;
 
-    @GetMapping
-    public ResponseEntity<Page<Fundraiser>> getAllFundraisers(@RequestParam Integer pageNumber,
-			@RequestParam Integer pageSize) {
-        Page<Fundraiser> fundraisers = fundraiserService.getAllFundraisers(pageNumber,pageSize);
-        return new ResponseEntity<>(fundraisers,HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity<Page<Fundraiser>> getAllFundraisers(@RequestParam Integer pageNumber,
+//			@RequestParam Integer pageSize) {
+//        Page<Fundraiser> fundraisers = fundraiserService.getAllFundraisers(pageNumber,pageSize);
+//        return new ResponseEntity<>(fundraisers,HttpStatus.OK);
+//    }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<Fundraiser> getFundraiserById(@PathVariable long id) {
-    	Fundraiser fundraiser = fundraiserRepository.getAllById(id);
-    	return new ResponseEntity<>(fundraiser,HttpStatus.OK);
-    }
+    
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Page<Fundraiser>> getFundraiserById(@PathVariable long id,@RequestParam Integer pageNumber,
@@ -90,6 +86,7 @@ public class FundraiserController {
             }
         	str.append(tt.charAt(i));
         }
+
         fundraiser.setTitle(str.toString());
         fundraiser.setCategory(fundraiserRequest.getCategory());
         fundraiser.setCountry(fundraiserRequest.getCountry());
@@ -97,7 +94,8 @@ public class FundraiserController {
         fundraiser.setFirstName(fundraiserRequest.getFirstName());
         fundraiser.setLastName(fundraiserRequest.getLastName());
         fundraiser.setDescription(fundraiserRequest.getDescription());
-        fundraiser.setRaisedAmount(0);
+        fundraiser.setUpiId(fundraiserRequest.getUpiId()); //***********
+        fundraiser.setRaisedAmount(0L);
         fundraiser.setRequiredAmount(fundraiserRequest.getRequiredAmount());
         fundraiser.setVideoUrl(fundraiserRequest.getVideoUrl());
         fundraiser.setCreatedAt(LocalDateTime.now());
@@ -164,28 +162,29 @@ public class FundraiserController {
         fundraiserService.deleteFundraiser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    @GetMapping("/filter")
-    public ResponseEntity<Page<Fundraiser>> getByCountry(@RequestParam("country") String country,@RequestParam("city") String city,@RequestParam("category") Category category,@RequestParam Integer pageNumber,
-			@RequestParam Integer pageSize) {
-    	
-    	
-	    if(country!=null && !country.equals("null")){
-	    	Page<Fundraiser> p = fundraiserService.findByCountry(country,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
-	
-	    if(city!=null && !city.equals("null")){
-	    	Page<Fundraiser> p = fundraiserService.findByCity(city,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
-	
-	    if(category!=null){
-	    	Page<Fundraiser> p = fundraiserService.findByCategory(category,pageNumber,pageSize);
-	    	return new ResponseEntity<>(p,HttpStatus.OK);
-	    }
 
-	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    
+//    @GetMapping("/filter")
+//    public ResponseEntity<Page<Fundraiser>> getByCountry(@RequestParam("country") String country,@RequestParam("city") String city,@RequestParam("category") Category category,@RequestParam Integer pageNumber,
+//			@RequestParam Integer pageSize) {
+//
+//
+//	    if(country!=null && !country.equals("null")){
+//	    	Page<Fundraiser> p = fundraiserService.findByCountry(country,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    if(city!=null && !city.equals("null")){
+//	    	Page<Fundraiser> p = fundraiserService.findByCity(city,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    if(category!=null){
+//	    	Page<Fundraiser> p = fundraiserService.findByCategory(category,pageNumber,pageSize);
+//	    	return new ResponseEntity<>(p,HttpStatus.OK);
+//	    }
+//
+//	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 }
