@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.backend.DonateDrift.config.JwtProvider;
 import com.backend.DonateDrift.dtos.AuthResponse;
@@ -63,7 +64,13 @@ public class AuthController {
 //		return ResponseEntity.ok(new ApiResponse("user registerd successfully",true));
 //	}
 	
-	@PostMapping("/signup")
+	// Preflight request handler for CORS
+    @RequestMapping(value = "/signup", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflight() {
+        return ResponseEntity.ok().build();
+    }
+	
+	@PostMapping(value="/signup")
 	public ResponseEntity<AuthResponse> createUserHandler(@RequestBody SignupRequest signupRequest) 
 							throws UserException{
 
