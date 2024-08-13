@@ -17,7 +17,8 @@ import com.backend.DonateDrift.service.DonorHistoryService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
+
 @RequestMapping("/api/donor-history")
 @RequiredArgsConstructor
 public class DonorHistroyController {

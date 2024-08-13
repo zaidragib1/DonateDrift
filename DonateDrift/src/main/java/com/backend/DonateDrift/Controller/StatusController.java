@@ -21,7 +21,8 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
+
 @RequestMapping("/api/status")
 public class StatusController {
 

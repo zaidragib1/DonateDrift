@@ -148,7 +148,8 @@ import java.util.Collections;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
+
 public class PaypalController {
     @Autowired
     private PaypalService paypalService;
