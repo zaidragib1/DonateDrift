@@ -21,6 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/status")
 public class StatusController {
 
