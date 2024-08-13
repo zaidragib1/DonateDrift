@@ -3,6 +3,7 @@ package com.backend.DonateDrift.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.backend.DonateDrift.repository.UserRepository;
 import com.backend.DonateDrift.service.CloudinaryImageService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/user/update")
 public class UserUpdateController {
 
