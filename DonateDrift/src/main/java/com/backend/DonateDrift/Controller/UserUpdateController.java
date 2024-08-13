@@ -20,7 +20,7 @@ import com.backend.DonateDrift.repository.UserRepository;
 import com.backend.DonateDrift.service.CloudinaryImageService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
 @RequestMapping("/api/user/update")
 public class UserUpdateController {
 

@@ -33,7 +33,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Base64;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
+
 @RequestMapping("/auth")
 public class AuthController {
 

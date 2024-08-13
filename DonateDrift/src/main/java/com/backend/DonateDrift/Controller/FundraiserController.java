@@ -33,7 +33,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://donatedrifts.vercel.app", allowCredentials = "true")
+
 @RequestMapping("/api/fundraisers")
 public class FundraiserController {
 
